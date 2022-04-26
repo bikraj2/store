@@ -4,7 +4,6 @@ from . import views
 
 
 #urls confs model
-urlpattern =[
+urlpatterns =[
     path('hello/',views.say_hello)
-
 ]
