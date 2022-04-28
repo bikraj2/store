@@ -2,6 +2,7 @@ from colorsys import ONE_SIXTH
 from configparser import MAX_INTERPOLATION_DEPTH
 from operator import mod
 from tkinter import CASCADE
+from attr import fields
 from django.db import models
 
 # Create your models here.
@@ -18,9 +19,10 @@ class Collection(models.Model):
 
 class Product(models.Model):
     title = models.CharField(null=False,max_length=245) #varchar of 245
+    slug = models.SlugField()
     descirptions = models.TextField(max_length=1000)
     #max price = 9999.99
-    price = models.DecimalField(null=False,max_digits=4,decimal_places=2)
+    unit_price = models.DecimalField(null=False,max_digits=4,decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateField(auto_now_add=True)
     collection = models.ForeignKey(
@@ -47,7 +49,6 @@ class Customer(models.Model):
     phone = models.PositiveBigIntegerField()
     birth_date= models.DateField(null=True)
     membership= models.CharField(max_length=1,choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_BRONZE)
-
 class Order(models.Model):
     PENDING='P'
     COMPLETED = 'C'
@@ -69,7 +70,7 @@ class Address (models.Model):
     city=models.CharField(max_length=255)
     Customer=models.ForeignKey(
         Customer,on_delete=models.CASCADE)
-
+    zip_code = models.PositiveSmallIntegerField()
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.PROTECT)
